@@ -51,6 +51,10 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
 /* Define to disable debugging. */
 #undef NDEBUG
 
@@ -68,6 +72,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
@@ -93,8 +100,8 @@
 /* Define if MODPLUG support is desired. */
 #undef SOUND_SUPPORTS_MODPLUG
 
-/* Define if MPGLIB support is desired. */
-#undef SOUND_SUPPORTS_MPGLIB
+/* Define if MPG123 support is desired. */
+#undef SOUND_SUPPORTS_MPG123
 
 /* Define if OGG support is desired. */
 #undef SOUND_SUPPORTS_OGG
@@ -104,9 +111,6 @@
 
 /* Define if SHN support is desired. */
 #undef SOUND_SUPPORTS_SHN
-
-/* Define if SMPEG support is desired. */
-#undef SOUND_SUPPORTS_SMPEG
 
 /* Define if SPEEX support is desired. */
 #undef SOUND_SUPPORTS_SPEEX

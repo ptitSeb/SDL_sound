@@ -22,6 +22,7 @@
 #if SUPPORT_PHYSFS
 
 #include <stdio.h>  /* used for SEEK_SET, SEEK_CUR, SEEK_END ... */
+#define __EXPORT__
 #include "physfsrwops.h"
 
 static int physfsrwops_seek(SDL_RWops *rw, int offset, int whence)

@@ -55,6 +55,10 @@ extern const Sound_DecoderFunctions  __Sound_DecoderFunctions_SMPEG;
 extern const Sound_DecoderFunctions  __Sound_DecoderFunctions_MPGLIB;
 #endif
 
+#if (defined SOUND_SUPPORTS_MPG123)
+extern const Sound_DecoderFunctions  __Sound_DecoderFunctions_MPG123;
+#endif
+
 #if (defined SOUND_SUPPORTS_MIKMOD)
 extern const Sound_DecoderFunctions  __Sound_DecoderFunctions_MIKMOD;
 #endif
@@ -115,6 +119,10 @@ typedef struct
 
 static decoder_element decoders[] =
 {
+#if (defined SOUND_SUPPORTS_MPG123)
+    { 0, &__Sound_DecoderFunctions_MPG123 },
+#endif
+
 #if (defined SOUND_SUPPORTS_SMPEG)
     { 0, &__Sound_DecoderFunctions_SMPEG },
 #endif
@@ -786,7 +794,7 @@ Uint32 Sound_Decode(Sound_Sample *sample)
 {
     Sound_SampleInternal *internal = NULL;
     Uint32 retval = 0;
-
+SNDDBG(("Sound_Decode(%p), buffer_size=%d\n", sample, sample->buffer_size));
         /* a boatload of sanity checks... */
     BAIL_IF_MACRO(!initialized, ERR_NOT_INITIALIZED, 0);
     BAIL_IF_MACRO(sample == NULL, ERR_INVALID_ARGUMENT, 0);
@@ -810,7 +818,7 @@ Uint32 Sound_Decode(Sound_Sample *sample)
         Sound_ConvertAudio(&internal->sdlcvt);
         retval = internal->sdlcvt.len_cvt;
     } /* if */
-
+SNDDBG(("Sound_Decode return %d, cvt=%d, flags=%x\n", retval, internal->sdlcvt.needed, sample->flags));
     return(retval);
 } /* Sound_Decode */
 

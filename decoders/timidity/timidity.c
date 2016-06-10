@@ -426,7 +426,7 @@ int Timidity_Init()
 #ifdef WIN32
   add_to_pathlist("\\TIMIDITY");
 #else
-  add_to_pathlist("/usr/local/lib/timidity");
+  add_to_pathlist("/etc/timidity");
   add_to_pathlist("/etc");
 #endif
 

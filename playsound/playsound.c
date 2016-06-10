@@ -47,6 +47,7 @@
 #include "SDL_sound.h"
 
 #if SUPPORT_PHYSFS
+#define __EXPORT__
 #include "physfs.h"
 #include "physfsrwops.h"
 #endif

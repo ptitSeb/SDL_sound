@@ -152,25 +152,38 @@ if test x$enable_midi = xyes; then
 fi
 
 dnl Check for SMPEG
-AC_ARG_ENABLE(smpeg,
-[  --enable-smpeg             enable MP3 decoding via smpeg [default=yes]],
-              , enable_smpeg=yes)
-if test x$enable_smpeg = xyes; then
-  AC_CHECK_HEADER(smpeg.h, have_smpeg_hdr=yes)
-  AC_CHECK_LIB(smpeg, SMPEG_new, have_smpeg_lib=yes)
-  if test x$have_smpeg_hdr = xyes -a x$have_smpeg_lib = xyes; then
-    LIBS="$LIBS -lsmpeg"
-    AC_DEFINE(SOUND_SUPPORTS_SMPEG, 1, [Define if SMPEG support is desired.])
+AC_ARG_ENABLE(mpg123,
+[  --enable-mpg123             enable MP3 decoding via mpg123 [default=yes]],
+              , enable_mpg123=yes)
+if test x$enable_mpg123 = xyes; then
+  AC_CHECK_HEADER(mpg123.h, have_mpg123_hdr=yes)
+  AC_CHECK_LIB(mpg123, mpg123_init, have_mpg123_lib=yes)
+  if test x$have_mpg123_hdr = xyes -a x$have_mpg123_lib = xyes; then
+    LIBS="$LIBS -lmpg123"
+    AC_DEFINE(SOUND_SUPPORTS_MPG123, 1, [Define if MPG123 support is desired.])
   fi
 fi
 
+dnl Check for SMPEG
+dnl AC_ARG_ENABLE(smpeg,
+dnl [  --enable-smpeg             enable MP3 decoding via smpeg [default=yes]],
+dnl               , enable_smpeg=yes)
+dnl if test x$enable_smpeg = xyes; then
+dnl   AC_CHECK_HEADER(smpeg.h, have_smpeg_hdr=yes)
+dnl   AC_CHECK_LIB(smpeg, SMPEG_new, have_smpeg_lib=yes)
+dnl   if test x$have_smpeg_hdr = xyes -a x$have_smpeg_lib = xyes; then
+dnl     LIBS="$LIBS -lsmpeg"
+dnl     AC_DEFINE(SOUND_SUPPORTS_SMPEG, 1, [Define if SMPEG support is desired.])
+dnl   fi
+dnl fi
+
 dnl Check for the MIDI decoder...
-AC_ARG_ENABLE(mpglib,
-[  --enable-mpglib            enable MP3 decoding internally [default=yes]],
-              , enable_mpglib=yes)
-if test x$enable_mpglib = xyes; then
-  AC_DEFINE(SOUND_SUPPORTS_MPGLIB, 1, [Define if MPGLIB support is desired.])
-fi
+dnl AC_ARG_ENABLE(mpglib,
+dnl [  --enable-mpglib            enable MP3 decoding internally [default=yes]],
+dnl               , enable_mpglib=yes)
+dnl if test x$enable_mpglib = xyes; then
+dnl   AC_DEFINE(SOUND_SUPPORTS_MPGLIB, 1, [Define if MPGLIB support is desired.])
+dnl fi
 
 
 dnl Check for libmikmod
@@ -218,13 +231,13 @@ fi
 dnl !!! FIXME: should be --enable-vorbis.
 dnl Check for Ogg Vorbis
 AC_ARG_ENABLE(ogg,
-[  --enable-ogg               enable OGG decoding via libvorbis [default=yes]],
+[  --enable-ogg               enable OGG decoding via libtremor [default=yes]],
               , enable_ogg=yes)
 if test x$enable_ogg = xyes; then
-  AC_CHECK_HEADER(vorbis/codec.h, have_vorbis_hdr=yes)
-  AC_CHECK_LIB(vorbis, vorbis_info_init, have_vorbis_lib=yes)
-  AC_CHECK_HEADER(vorbis/vorbisfile.h, have_vorbisfile_hdr=yes)
-  AC_CHECK_LIB(vorbisfile, ov_open_callbacks, have_vorbisfile_lib=yes)
+  AC_CHECK_HEADER(tremor/ivorbiscodec.h, have_vorbis_hdr=yes)
+  AC_CHECK_LIB(vorbisidec, vorbis_info_init, have_vorbis_lib=yes)
+  AC_CHECK_HEADER(tremor/ivorbisfile.h, have_vorbisfile_hdr=yes)
+  AC_CHECK_LIB(vorbisidec, ov_open_callbacks, have_vorbisfile_lib=yes)
   have_vorbis=no
   if test x$have_ogg = xyes; then
     if test x$have_vorbis_hdr = xyes -a x$have_vorbis_lib = xyes; then
@@ -236,7 +249,7 @@ if test x$enable_ogg = xyes; then
 
   if test x$have_vorbis = xyes; then
     CFLAGS="$CFLAGS"
-    LIBS="$LIBS -logg -lvorbis -lvorbisfile"
+    LIBS="$LIBS -logg -lvorbisidec"
     AC_DEFINE(SOUND_SUPPORTS_OGG, 1, [Define if OGG support is desired.])
   fi
 fi

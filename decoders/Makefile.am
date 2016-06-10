@@ -8,10 +8,11 @@ libdecoders_la_SOURCES =	\
 	aiff.c		\
 	au.c		\
 	mikmod.c	\
+	mpg123.c	\
 	modplug.c	\
 	mpglib.c	\
 	smpeg.c		\
-	ogg.c		\
+	oggtremor.c	\
 	raw.c		\
 	shn.c		\
 	voc.c		\
