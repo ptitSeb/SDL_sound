@@ -1,7 +1,28 @@
+if SDL2
+lib_LTLIBRARIES = libSDL2_sound.la
+else
 lib_LTLIBRARIES = libSDL_sound.la
+endif
 
+if SDL2
+else
 SUBDIRS = decoders . playsound
+endif
 
+if SDL2
+libSDL2_soundincludedir = $(includedir)/SDL
+libSDL2_soundinclude_HEADERS =	\
+	SDL_sound.h
+
+libSDL2_sound_la_SOURCES =	\
+	SDL_sound.c	\
+	SDL_sound_internal.h	\
+    alt_audio_convert.c   \
+    alt_audio_convert.h  \
+    audio_convert.c   \
+	extra_rwops.c	\
+	extra_rwops.h
+else
 libSDL_soundincludedir = $(includedir)/SDL
 libSDL_soundinclude_HEADERS =	\
 	SDL_sound.h
@@ -14,6 +35,7 @@ libSDL_sound_la_SOURCES =	\
     audio_convert.c   \
 	extra_rwops.c	\
 	extra_rwops.h
+endif
 
 if USE_TIMIDITY
 TIMIDITY_LIB = decoders/timidity/libtimidity.la
@@ -27,12 +49,21 @@ else
 MPGLIB_LIB =
 endif
 
+if SDL2
+libSDL2_sound_la_LDFLAGS = 		\
+	-release $(LT_RELEASE)	\
+	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+libSDL2_sound_la_LIBADD =	\
+	decoders/libdecoders.la	\
+	$(TIMIDITY_LIB) $(MPGLIB_LIB)
+else
 libSDL_sound_la_LDFLAGS = 		\
 	-release $(LT_RELEASE)	\
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 libSDL_sound_la_LIBADD =	\
 	decoders/libdecoders.la	\
 	$(TIMIDITY_LIB) $(MPGLIB_LIB)
+endif
 
 EXTRA_DIST =	\
 	CREDITS \
@@ -51,3 +82,9 @@ dist-hook:
 	echo >> $(distdir)/docs/README
 	rm -rf `find $(distdir) -type d -name ".svn"`
 
+pkgconfigdir = $(libdir)/pkgconfig
+if SDL2
+pkgconfig_DATA = SDL2_sound.pc
+else
+pkgconfig_DATA = SDL_sound.pc
+endif

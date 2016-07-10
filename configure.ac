@@ -83,14 +83,41 @@ dnl Checks for libraries.
 dnl ---------------------------------------------------------------------
 
 dnl Check for SDL
-SDL_VERSION=1.2.0
-AM_PATH_SDL($SDL_VERSION,
+AC_ARG_ENABLE(sdl2,
+[  --enable-sdl2               build for SDL2 [default=yes]],
+              , enable_sdl2=yes)
+if test x$enable_sdl2 = xyes; then
+  SDL_VERSION=2.0.0
+  AC_SUBST(SDL_VERSION)
+  AM_PATH_SDL($SDL_VERSION,
             :,
  	     AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
-)
-CFLAGS="$CFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS"
-
+  )
+  CFLAGS="$CFLAGS $SDL_CFLAGS"
+  LIBS="$LIBS $SDL_LIBS"
+  PCFILE="SDL2_sound.pc"
+  AC_SUBST(PCFILE)
+  LIBNAME="SDL2_sound"
+  AC_SUBST(LIBNAME)
+  AC_DEFINE(SDL2, 1, [Define for SDL2 builds.])
+  use_sdl2=true
+else
+  SDL_VERSION=1.2.0
+  AC_SUBST(SDL_VERSION)
+  AM_PATH_SDL($SDL_VERSION,
+            :,
+       AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
+  )
+  CFLAGS="$CFLAGS $SDL_CFLAGS"
+  LIBS="$LIBS $SDL_LIBS"
+  PCFILE="SDL_sound.pc"
+  AC_SUBST(PCFILE)
+  LIBNAME="SDL_sound"
+  AC_SUBST(LIBNAME)
+  AC_DEFINE(SDL1, 1, [Define for SDL1.2 builds.])
+  use_sdl2=false
+fi
+AM_CONDITIONAL([SDL2], [test x$use_sdl2 = xtrue])
 
 dnl Check for voc decoder inclusion...
 AC_ARG_ENABLE(voc,
@@ -357,4 +384,5 @@ decoders/Makefile
 decoders/timidity/Makefile
 decoders/mpglib/Makefile
 playsound/Makefile
+$PCFILE
 ])
