@@ -66,7 +66,7 @@ const Sound_DecoderFunctions __Sound_DecoderFunctions_OGG =
 {
     {
         extensions_ogg,
-        "Ogg Vorbis audio through VorbisFile",
+        "Ogg Vorbis audio through Tremor",
         "Ryan C. Gordon <icculus@icculus.org>",
         "http://www.icculus.org/SDL_sound/"
     },
