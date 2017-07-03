@@ -13,3 +13,6 @@ script:
     - ./autogen.sh
     - ./configure
     - make
+
+after_failure:
+    - cat config.log
