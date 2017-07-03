@@ -5,6 +5,7 @@ lib_LTLIBRARIES = libSDL_sound.la
 endif
 
 if SDL2
+SUBDIRS = decoders .
 else
 SUBDIRS = decoders . playsound
 endif
