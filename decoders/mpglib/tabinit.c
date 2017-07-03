@@ -1,9 +1,12 @@
-
 #include <stdlib.h>
 
 #include "mpg123_sdlsound.h"
 
 real decwin[512+32];
+#ifdef USE_NEON
+short decwins[512+32];
+short decwins1[512+32];
+#endif
 static real cos64[16],cos32[8],cos16[4],cos8[2],cos4[1];
 real *pnts[] = { cos64,cos32,cos16,cos8,cos4 };
 
@@ -11,7 +14,6 @@ real *pnts[] = { cos64,cos32,cos16,cos8,cos4 };
 static unsigned char *conv16to8_buf = NULL;
 unsigned char *conv16to8;
 #endif
-
 static long intwinbase[] = {
      0,    -1,    -1,    -1,    -1,    -1,    -1,    -2,    -2,    -2,
     -2,    -3,    -3,    -4,    -4,    -5,    -5,    -6,    -7,    -7,
@@ -40,12 +42,19 @@ static long intwinbase[] = {
  64019, 65290, 66494, 67629, 68692, 69679, 70590, 71420, 72169, 72835,
  73415, 73908, 74313, 74630, 74856, 74992, 75038 };
 
+static int rounded(double f)
+{
+        return (int)(f>0 ? floor(f+0.5) : ceil(f-0.5));
+}
+
 void make_decode_tables(long scaleval)
 {
   int i,j,k,kr,divv;
-  real *table,*costab;
 
-  
+  float *table,*costab;
+  short *ptr = (short *)decwins;
+
+
   for(i=0;i<5;i++)
   {
     kr=0x10>>i; divv=0x40>>i;
@@ -75,6 +84,27 @@ void make_decode_tables(long scaleval)
     if(i % 64 == 63)
       scaleval = - scaleval;
   }
-}
+#ifdef USE_NEON
+  int val;
+  table = decwin;
 
+  for(i=0; i<512; i++) {
+    if(i&1) val = rounded(table[i]*0.5);
+    else val = rounded(table[i]*-0.5);
+    if(val > 32767) val = 32767;
+    else if(val < -32768) val = -32768;
+    ptr[i] = val;
+  }
+  for(i=512; i<512+32; i++) {
+    if(i&1) val = rounded(table[i]*0.5);
+    else val = 0;
+    if(val > 32767) val = 32767;
+    else if(val < -32768) val = -32768;
+    ptr[i] = val;
+  }
+  for(i=0; i<512+32; i++) {
+    decwins1[1+i] = ptr[i+1];
+  }
+#endif
+}
 

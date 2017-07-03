@@ -3,7 +3,16 @@ noinst_LTLIBRARIES = libmpglib.la
 endif
 
 INCLUDES = -I$(top_srcdir)
-libmpglib_la_CFLAGS = -DLAYER1 -DLAYER2 -DLAYER3
+
+if USE_NEON
+neon_SOURCES = dct64_neon.S synth_neon.S
+neon_CFLAGS = -DUSE_NEON
+else
+neon_SOURCES = 
+neon_CFLAGS =
+endif
+
+libmpglib_la_CFLAGS = -DLAYER1 -DLAYER2 -DLAYER3 $(neon_CFLAGS)
 
 libmpglib_la_SOURCES =	\
 	mpglib_common.c     \
@@ -17,7 +26,8 @@ libmpglib_la_SOURCES =	\
 	decode_i386.c       \
 	l2tables.h          \
 	layer3.c            \
-	mpglib_sdlsound.h
+	mpglib_sdlsound.h   \
+	$(neon_SOURCES)
 
 EXTRA_DIST = CHANGES README README-sdlsound TODO main.c
 

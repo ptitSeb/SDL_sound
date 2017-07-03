@@ -55,7 +55,7 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AM_PROG_LIBTOOL
-
+AM_PROG_AS
 
 dnl ---------------------------------------------------------------------
 dnl Debug mode?
@@ -77,6 +77,14 @@ else
   AC_DEFINE(NDEBUG, 1, [Define to disable debugging.])
 fi
 
+dnl Check for the NEON optims...
+AC_ARG_ENABLE(neon,
+[  --enable-neon              enable neon optimisations [default=no]],
+              , enable_neon=no)
+if test x$enable_neon = xyes; then
+  AC_DEFINE(USE_NEON, 1, [Define if NEON optims are desired.])
+fi
+AM_CONDITIONAL(USE_NEON, test x$enable_neon = xyes)
 
 dnl ---------------------------------------------------------------------
 dnl Checks for libraries.

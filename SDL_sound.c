@@ -119,6 +119,10 @@ typedef struct
 
 static decoder_element decoders[] =
 {
+#if (defined SOUND_SUPPORTS_OGG)
+    { 0, &__Sound_DecoderFunctions_OGG },
+#endif
+
 #if (defined SOUND_SUPPORTS_MPG123)
     { 0, &__Sound_DecoderFunctions_MPG123 },
 #endif
@@ -149,10 +153,6 @@ static decoder_element decoders[] =
 
 #if (defined SOUND_SUPPORTS_AU)
     { 0, &__Sound_DecoderFunctions_AU },
-#endif
-
-#if (defined SOUND_SUPPORTS_OGG)
-    { 0, &__Sound_DecoderFunctions_OGG },
 #endif
 
 #if (defined SOUND_SUPPORTS_VOC)
@@ -621,7 +621,6 @@ Sound_Sample *Sound_NewSample(SDL_RWops *rw, const char *ext,
 {
     Sound_Sample *retval;
     decoder_element *decoder;
-
     /* sanity checks. */
     BAIL_IF_MACRO(!initialized, ERR_NOT_INITIALIZED, NULL);
     BAIL_IF_MACRO(rw == NULL, ERR_INVALID_ARGUMENT, NULL);

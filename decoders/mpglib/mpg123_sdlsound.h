@@ -193,6 +193,8 @@ extern long mpglib_freqs[9];
 extern real muls[27][64];
 extern real decwin[512+32];
 extern real *pnts[5];
+extern short decwins[512+32];
+extern short decwins1[512+32];
 
 extern struct parameter param;
 
