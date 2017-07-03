@@ -77,15 +77,6 @@ else
   AC_DEFINE(NDEBUG, 1, [Define to disable debugging.])
 fi
 
-dnl Check for the NEON optims...
-AC_ARG_ENABLE(neon,
-[  --enable-neon              enable neon optimisations [default=no]],
-              , enable_neon=no)
-if test x$enable_neon = xyes; then
-  AC_DEFINE(USE_NEON, 1, [Define if NEON optims are desired.])
-fi
-AM_CONDITIONAL(USE_NEON, test x$enable_neon = xyes)
-
 dnl ---------------------------------------------------------------------
 dnl Checks for libraries.
 dnl ---------------------------------------------------------------------
@@ -126,6 +117,15 @@ else
   use_sdl2=false
 fi
 AM_CONDITIONAL([SDL2], [test x$use_sdl2 = xtrue])
+
+dnl Check for the NEON optims...
+AC_ARG_ENABLE(neon,
+[  --enable-neon              enable neon optimisations [default=no]],
+              , enable_neon=no)
+if test x$enable_neon = xyes; then
+  AC_DEFINE(USE_NEON, 1, [Define if NEON optims are desired.])
+fi
+AM_CONDITIONAL(USE_NEON, test x$enable_neon = xyes)
 
 dnl Check for voc decoder inclusion...
 AC_ARG_ENABLE(voc,
