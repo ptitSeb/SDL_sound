@@ -42,11 +42,12 @@ AC_ARG_ENABLE(sdltest, [  --disable-sdltest       Do not try to compile and run 
     no_sdl=yes
   else
     if test "$SDL2_CONFIG" ; then
-      SDL2_CFLAGS=`$SDL2_CONFIG $sdlconf_args --cflags`
-      SDL2_LIBS=`$SDL2_CONFIG $sdlconf_args --libs`
+      SDL_CFLAGS=`$SDL2_CONFIG $sdlconf_args --cflags`
+      SDL_LIBS=`$SDL2_CONFIG $sdlconf_args --libs`
+    else
+      SDL_CFLAGS=`$SDL1_CONFIG $sdlconf_args --cflags`
+      SDL_LIBS=`$SDL1_CONFIG $sdlconf_args --libs`
     fi
-    SDL_CFLAGS=`$SDL1_CONFIG $sdlconf_args --cflags`
-    SDL_LIBS=`$SDL1_CONFIG $sdlconf_args --libs`
 
     sdl_major_version=`$SDL_CONFIG $sdl_args --version | \
            sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
