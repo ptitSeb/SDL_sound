@@ -5,12 +5,13 @@ lib_LTLIBRARIES = libSDL_sound.la
 endif
 
 if SDL2
+SUBDIRS = decoders .
 else
 SUBDIRS = decoders . playsound
 endif
 
 if SDL2
-libSDL2_soundincludedir = $(includedir)/SDL
+libSDL2_soundincludedir = $(includedir)/SDL2
 libSDL2_soundinclude_HEADERS =	\
 	SDL_sound.h
 
