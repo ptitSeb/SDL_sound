@@ -20,3 +20,5 @@ Please check the website for the most up-to-date information about SDL_sound:
 
 
 This version of SDL_sound can be built for SDL 1.2 or SDL 2.0. It will built by default for SDL2.
+You can use `./configure --enable-sdl2=no` to have SDL_sound compiled.
+The SDL2 version will be called SDL2_sound (so it can live alongside regular SDL_sound).
