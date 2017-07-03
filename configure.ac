@@ -92,8 +92,8 @@ if test x$enable_sdl2 = xyes; then
             :,
  	     AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
   )
-  CFLAGS="$CFLAGS $SDL2_CFLAGS"
-  LIBS="$LIBS $SDL2_LIBS"
+  CFLAGS="$CFLAGS $SDL_CFLAGS"
+  LIBS="$LIBS $SDL_LIBS"
   PCFILE="SDL2_sound.pc"
   AC_SUBST(PCFILE)
   LIBNAME="SDL2_sound"
