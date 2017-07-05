@@ -30,7 +30,7 @@ AC_ARG_ENABLE(sdltest, [  --disable-sdltest       Do not try to compile and run 
   AC_PATH_PROG(SDL1_CONFIG, sdl-config, no, [$PATH])
   AC_PATH_PROG(SDL2_CONFIG, sdl2-config, no, [$PATH])
 
-  if test "$SDL2_CONFIG" != "no" ; then
+  if test x$enable_sdl2 = xyes ; then
     SDL_CONFIG=$SDL2_CONFIG
   else
     SDL_CONFIG=$SDL1_CONFIG
