@@ -41,7 +41,7 @@ AC_ARG_ENABLE(sdltest, [  --disable-sdltest       Do not try to compile and run 
   if test "$SDL_CONFIG" = "no" ; then
     no_sdl=yes
   else
-    if test "$SDL2_CONFIG" ; then
+    if test x$enable_sdl2 = xyes ; then
       SDL_CFLAGS=`$SDL2_CONFIG $sdlconf_args --cflags`
       SDL_LIBS=`$SDL2_CONFIG $sdlconf_args --libs`
     else
