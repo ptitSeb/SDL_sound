@@ -2,16 +2,24 @@ language: cpp
 sudo: true
 dist: trusty
 
+env:
+    - matrix:
+        - SDL2=no
+        - SDL2=yes
+
 compiler:
     - g++
 
 #Build steps
 before_install:
-    - sudo apt-get install libsdl2-dev -y
+    - if [[ "$SDL2" == "yes" ]]; then sudo apt-get install libsdl2-dev -y; fi
+    - if [[ "$SDL2" == "no" ]]; then sudo apt-get install libsdl1.2-dev -y; fi
 
 script:
     - ./autogen.sh
-    - ./configure
+    - mkdir SDL2_${SDL2}
+    - cd SDL2_${SDL2}
+    - ../configure --enable-sdl2=${SDL2}
     - make
 
 after_failure:
