@@ -3,7 +3,7 @@ sudo: true
 dist: trusty
 
 env:
-    - matrix:
+    matrix:
         - SDL2=no
         - SDL2=yes
 
